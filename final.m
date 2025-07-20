@@ -397,3 +397,42 @@ subplot(224);plot(o_high(1:800));xlabel('Sample Index');ylabel('Amplitude');
 title('Filtered signal (Highpass, cutoff 442 Hz, order 10)');
 
 
+Companding
+Companding is a technique for reducing audio data rates by using unequal quantization levels. Since the human ear can detect sounds from 0 dB SPL to 120 dB SPL (a million-fold amplitude range) but can only distinguish about 120 different loudness levels (spaced logarithmically), companding takes advantage of this perceptual characteristic.
+The benefits are significant:
+•	Telephone-quality speech requires 12 bits with equal spacing
+•	Only 8 bits are required with unequal spacing that matches human hearing
+•	This provides a 33% reduction in data rate
+Companding can be implemented in three ways:
+1.	Using a nonlinear analog circuit before a linear ADC
+2.	Using an ADC with internally unequal steps
+3.	Using a linear ADC followed by a digital lookup table
+Two standard algorithms are used globally:
+•	μ-law (mu-law): Used in North America and Japan
+•	A-law: Used in Europe
+Both use logarithmic nonlinearity with slight differences in their implementation.
+Speech Synthesis and Recognition
+Speech Production Model
+Nearly all speech synthesis and recognition techniques are based on a model of human speech production that classifies sounds as:
+•	Voiced sounds (like vowels): Produced when air passes through vibrating vocal cords, creating periodic puffs represented by a pulse train generator
+•	Fricative sounds (like s, f, sh): Produced by air turbulence when airflow is constricted, represented by a noise generator
+Both sound sources are modified by acoustic cavities (tongue, lips, mouth, throat), which can be modeled as a linear filter with resonances called format frequencies.
+Spectrogram
+Speech can be visualized using spectrograms (voiceprints) that show how frequency content changes over time:
+•	Voiced sounds appear as regular harmonic patterns
+•	Fricatives appear as noisy, random patterns
+Speech Synthesis
+Speech can be synthesized by specifying three parameters every 25 milliseconds:
+1.	Type of excitation (periodic or random noise)
+2.	Frequency of the periodic wave (if used)
+3.	Coefficients of a digital filter mimicking vocal tract response
+This approach enables low data rate speech synthesis (few kbits/sec) and is the basis for Linear Predictive Coding (LPC) compression, though quality can sound mechanical.
+Speech Recognition Challenges
+Speech recognition algorithms attempt to match patterns in extracted parameters with stored templates. Major limitations include:
+1.	Requiring pauses between words (eliminating natural speech flow)
+2.	Limited vocabulary (increasing vocabulary increases error rates)
+3.	Speaker-dependent training requirements
+Unlike humans, most algorithms recognize words based only on sound, not context. This creates significant disadvantages compared to human listeners, who use context and expectations to disambiguate similar-sounding phrases (like "spider ring" vs. "spy during").
+Despite these challenges, speech recognition remains an active area of DSP research with potential to replace various input methods like typing and keyboard entry.
+
+
